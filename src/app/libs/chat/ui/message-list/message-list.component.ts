@@ -42,7 +42,6 @@ import { CommonModule } from '@angular/common';
 })
 export class MessageListComponent {
   #messages: MessageEntity[] = [];
-
   @Input({ required: true }) isOnTop!: boolean | undefined;
   @Input({ required: true }) set messages(value: MessageEntity[]) {
     this.#messages = value;

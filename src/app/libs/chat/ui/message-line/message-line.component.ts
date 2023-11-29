@@ -17,6 +17,15 @@ import { IsOwnerPipe } from 'src/app/libs/shared/util/pipes/is-owner.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterModule, DatePipe, IsOwnerPipe, CommonModule],
   template: `
+    @switch(message.type){ @case('system'){
+    <div class=" flex justify-center my-2">
+      <div class="bg-[#333333] w-fit text-white rounded-full px-4">
+        <small>
+          {{ message.text }}
+        </small>
+      </div>
+    </div>
+    } @default{
     <div
       *ngIf="!(message | isOwner); else own"
       class="grid grid-cols-[2.5rem_1fr] gap-x-2 py-1"
@@ -36,6 +45,7 @@ import { IsOwnerPipe } from 'src/app/libs/shared/util/pipes/is-owner.pipe';
         </div>
       </div>
     </div>
+    } }
 
     <ng-template #own>
       <div class="w-full flex justify-end">

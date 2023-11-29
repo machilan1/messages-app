@@ -23,7 +23,7 @@ import { UserEntity } from '../../data-access/models/user.entity';
   template: `
     <div class="flex">
       <span class="example-pizza-party" matSnackBarLabel>
-        {{ data.user.name }} invites you to join {{ data.room.name }}</span
+        {{ data.user.username }} invites you to join {{ data.room.name }}</span
       >
       <span matSnackBarActions>
         <button

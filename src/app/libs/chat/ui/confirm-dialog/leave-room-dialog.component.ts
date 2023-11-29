@@ -10,6 +10,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { RoomStore } from '../../data-access/store/room.store';
 import { Router } from '@angular/router';
+import { RoomEntity } from '../../data-access/models/room.entity';
 
 @Component({
   standalone: true,
@@ -33,7 +34,7 @@ import { Router } from '@angular/router';
 })
 export class LeaveRoomDialogComponent {
   #dialogRef = inject(MatDialogRef<LeaveRoomDialogComponent>);
-  #data = inject(MAT_DIALOG_DATA);
+  #data = inject(MAT_DIALOG_DATA) as RoomEntity;
   #roomStore = inject(RoomStore);
 
   onNoClick() {
@@ -41,6 +42,6 @@ export class LeaveRoomDialogComponent {
   }
   onConfirm() {
     this.#dialogRef.close();
-    this.#roomStore.leaveRoom(this.#data);
+    this.#roomStore.leaveRoom(this.#data.id);
   }
 }

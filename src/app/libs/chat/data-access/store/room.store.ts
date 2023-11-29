@@ -7,17 +7,8 @@ import {
 } from '@ngrx/component-store';
 import { RoomEntity } from '../models/room.entity';
 import { RoomService } from '../service/room.service';
-import {
-  catchError,
-  concatMap,
-  exhaustMap,
-  finalize,
-  of,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { catchError, concatMap, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { MessageService } from '../service/message.service';
 import { MessageStore } from './message.store';
 import { Paginate, PaginationMeta } from '../models/paginate.interface';
 import { NotificationService } from '../service/notification.service';
@@ -84,12 +75,7 @@ export class RoomStore
   readonly leaveRoom = this.effect<number>(($roomId) =>
     $roomId.pipe(
       tap((id) => {
-        const room = this.get().rooms.find((room) => (room.id = id));
-        this.patchState({
-          rooms: this.get().rooms.filter((room) => room.id !== id),
-        });
-        this.#router.navigate(['/chat']);
-        this.#snackbar.open(`You have leaved ${room?.name}`, 'ok');
+        this.#roomService.leaveRoom(id);
       }),
 
       catchError((error) => {
@@ -105,7 +91,12 @@ export class RoomStore
         this.#roomService.listenLeaveRoom().pipe(
           tapResponse(
             (res) => {
-              console.log(123);
+              const room = this.get().rooms.find((room) => (room.id = res.id));
+              this.patchState({
+                rooms: this.get().rooms.filter((room) => room.id !== res.id),
+              });
+              this.#router.navigate(['/chat']);
+              this.#snackbar.open(`You have leaved ${room?.name}`, 'ok');
             },
             (error) => {
               console.log(error);
@@ -240,5 +231,6 @@ export class RoomStore
     this.listenPaginateRoom();
     this.listenToInvitationNotification();
     this.listenToLeaveRoom();
+    this.#messageStore.listenToSystemMessage();
   }
 }

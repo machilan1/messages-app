@@ -41,10 +41,8 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
   template: `
     <div class="grid grid-rows-[4rem_1fr_4rem] h-full max-h-screen">
       <app-room-header
+        [room]="roomWithMessage()"
         [menu]="true"
-        [title]="roomWithMessage()?.name ?? ''"
-        [description]="roomWithMessage()?.description ?? ''"
-        [roomId]="+roomId"
       ></app-room-header>
       <div class="overflow-auto" #list>
         <app-message-list

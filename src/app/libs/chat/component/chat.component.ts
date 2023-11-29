@@ -44,8 +44,8 @@ import { NotificationService } from '../data-access/service/notification.service
     UserHeaderComponent,
   ],
   providers: [
-    RoomService,
     NotificationService,
+    RoomService,
     provideComponentStore(RoomStore),
   ],
   template: `
@@ -104,7 +104,6 @@ export class ChatComponent implements OnInit {
   user = getLocalUser();
   rooms = this.#roomStore.rooms;
   fullyLoaded = this.#roomStore.fullyLoaded;
-  // Todo add notification service
 
   ngOnInit() {
     this.#messageStore.listenToInitialMessages();

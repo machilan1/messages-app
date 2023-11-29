@@ -12,6 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RoomStore } from '../../data-access/store/room.store';
 import { MatDialog } from '@angular/material/dialog';
 import { LeaveRoomDialogComponent } from '../confirm-dialog/leave-room-dialog.component';
+import { RoomEntity } from '../../data-access/models/room.entity';
 
 @Component({
   standalone: true,
@@ -22,9 +23,9 @@ import { LeaveRoomDialogComponent } from '../confirm-dialog/leave-room-dialog.co
     <p>
       <mat-toolbar color="primary" class="flex justify-between">
         <div>
-          <h2 class="inline">{{ title }}</h2>
+          <h2 class="inline">{{ room?.name ?? 'Create a new room' }}</h2>
           <span> - </span>
-          <h3 class="inline">{{ description }}</h3>
+          <h3 class="inline">{{ room?.description ?? '' }}</h3>
         </div>
         @if(menu){
 
@@ -48,13 +49,12 @@ export class RoomHeadComponent {
   #viewContainerRef = inject(ViewContainerRef);
   #roomStore = inject(RoomStore);
   #dialog = inject(MatDialog);
-  @Input({ required: true }) title!: string;
-  @Input({ required: true }) description!: string;
+  @Input() room?: RoomEntity;
   @Input() menu: boolean = false;
-  @Input() roomId?: number;
+
   onLeave() {
     this.#dialog.open(LeaveRoomDialogComponent, {
-      data: this.roomId,
+      data: this.room,
       viewContainerRef: this.#viewContainerRef,
     });
   }

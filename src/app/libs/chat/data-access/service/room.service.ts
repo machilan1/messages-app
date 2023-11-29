@@ -43,7 +43,7 @@ export class RoomService {
    *
    */
   listenLeaveRoom() {
-    return this.#socket.fromEvent<string>('receiveLeaveRoomResponse');
+    return this.#socket.fromEvent<RoomEntity>('receiveLeaveRoomResponse');
   }
 
   /** Returns an observable that emits value when selected room is loaded with messages.
